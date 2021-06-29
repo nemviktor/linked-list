@@ -88,8 +88,7 @@ public class SinglyLinkedList<T> {
         while (current.getNext() != null) {
             current = current.getNext();
             indexOf++;
-            System.out.println(current.getValue());
-            if (current.getValue() == number) {
+            if (current.getValue().equals(number)) {
                 return indexOf;
             }
         }
