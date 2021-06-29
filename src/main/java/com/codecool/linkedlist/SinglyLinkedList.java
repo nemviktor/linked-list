@@ -1,17 +1,17 @@
 package com.codecool.linkedlist;
 
-public class SinglyLinkedList {
+public class SinglyLinkedList<T> {
 
-    private class Link {
+    private class Link<T> {
 
-        private int value;
+        private T value;
         private Link next;
 
-        Link(int value) {
+        Link(T value) {
             this.value = value;
         }
 
-        int getValue() {
+        T getValue() {
             return value;
         }
 
@@ -36,7 +36,19 @@ public class SinglyLinkedList {
      *
      * @param value value to be appended
      */
-    public void add(int value) {
+    public void add(T value) {
+
+        if (head == null) {
+            head = new Link(value);
+            return;
+        }
+
+        Link current = head;
+        while (current.getNext() != null) {
+            current = current.getNext();
+        }
+
+        current.setNext(new Link(value));
     }
 
     /**
@@ -45,8 +57,19 @@ public class SinglyLinkedList {
      * @param index the position of requested value
      * @return value of element at index
      */
-    public int get(int index) {
-        return 0;
+    public T get(int index) {
+        int actualSize = size();
+        if (index > actualSize || index < 0) {
+            throw new IndexOutOfBoundsException("Index is out of bounds!");
+        } else {
+            int i = 0;
+            Link current = head;
+            while (i != index) {
+                current = current.getNext();
+                i++;
+            }
+            return (T) current.getValue();
+        }
     }
 
     /**
@@ -55,8 +78,22 @@ public class SinglyLinkedList {
      * @param number value to be searched
      * @return Index of 'number' if it's in the list, otherwise -1;
      */
-    public int indexOf(int number) {
-        return 0;
+    public int indexOf(T number) {
+        Link current = head;
+        if (head.getValue() == number) {
+            return 0;
+        }
+
+        int indexOf = 0;
+        while (current.getNext() != null) {
+            current = current.getNext();
+            indexOf++;
+            System.out.println(current.getValue());
+            if (current.getValue() == number) {
+                return indexOf;
+            }
+        }
+        return -1;
     }
 
     /**
@@ -65,7 +102,30 @@ public class SinglyLinkedList {
      * @param index  Position of the new element
      * @param number Value to be inserted.
      */
-    public void insert(int index, int number) {
+    public void insert(int index, T number) {
+        Link linkToInsert = new Link(number);
+
+        if (index == 0) {
+            linkToInsert.setNext(head);
+            head = linkToInsert;
+        } else {
+            int actualSize = size();
+            if (index < actualSize && index > 0) {
+                int i = 1;
+                Link elementBeforeIndex = head;
+                while (i != index) {
+                    elementBeforeIndex = elementBeforeIndex.getNext();
+                    i++;
+                }
+                Link oldElementAtIndex = elementBeforeIndex.getNext();
+                elementBeforeIndex.setNext(new Link(number));
+                elementBeforeIndex.getNext().setNext(oldElementAtIndex);
+            } else if(index == actualSize) {
+                add(number);
+            } else {
+                    throw new IndexOutOfBoundsException();
+            }
+        }
     }
 
     /**
@@ -74,8 +134,19 @@ public class SinglyLinkedList {
      * @return Size of list.
      */
     public int size() {
-        return 0;
+        if (head == null) {
+            return 0;
+        } else {
+            int i = 1;
+            Link current = head;
+            while (current.getNext() != null) {
+                i++;
+                current = current.getNext();
+            }
+            return i;
+        }
     }
+
 
     /**
      * Removes the element at 'index' from the array.
