@@ -79,17 +79,17 @@ public class SinglyLinkedList<T> {
      * @return Index of 'number' if it's in the list, otherwise -1;
      */
     public int indexOf(T number) {
-        Link current = head;
-        if (head.getValue() == number) {
+        if (head.getValue().equals(number)) {
             return 0;
         }
 
-        int indexOf = 0;
+        Link current = head;
+        int index = 0;
         while (current.getNext() != null) {
             current = current.getNext();
-            indexOf++;
+            index++;
             if (current.getValue().equals(number)) {
-                return indexOf;
+                return index;
             }
         }
         return -1;
@@ -117,8 +117,8 @@ public class SinglyLinkedList<T> {
                     i++;
                 }
                 Link oldElementAtIndex = elementBeforeIndex.getNext();
-                elementBeforeIndex.setNext(new Link(number));
-                elementBeforeIndex.getNext().setNext(oldElementAtIndex);
+                elementBeforeIndex.setNext(linkToInsert);
+                linkToInsert.setNext(oldElementAtIndex);
             } else if(index == actualSize) {
                 add(number);
             } else {
